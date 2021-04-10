@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashScreen"
+    tools:context=".view.activities.SplashScreen"
     android:background="@color/primary_dark_color">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_splash_heading"
-        android:text="@string/splash_screen_heading"
+        android:text="@string/splash_screen_title"
         android:fontFamily="cursive"
         android:textSize="50sp"
         android:textColor="@color/white"

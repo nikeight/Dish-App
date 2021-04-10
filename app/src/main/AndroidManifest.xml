@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_temp_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DishApp">
-        <activity android:name=".SplashScreen"
+        <activity android:name=".view.activities.AddUpdateDishActivity"
+            android:configChanges="orientation"
+            android:label="Add Dish"
+            android:theme="@style/AppTheme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity
+            android:name=".view.activities.SplashScreen"
             android:theme="@style/AppTheme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".view.activities.MainActivity"
+            android:label="@string/app_name"/>
     </application>
+
 </manifest>

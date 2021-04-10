@@ -1,4 +1,4 @@
-package com.appchef.dishapp
+package com.appchef.dishapp.view.activities
 
 import android.content.Intent
 import android.os.Build
@@ -10,6 +10,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import com.appchef.dishapp.R
 import com.appchef.dishapp.databinding.ActivitySplashScreenBinding
 
 class SplashScreen : AppCompatActivity() {
@@ -30,7 +31,7 @@ class SplashScreen : AppCompatActivity() {
             )
         }
 
-        val splashAnimation = AnimationUtils.loadAnimation(this,R.anim.anim_splash)
+        val splashAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_splash)
         splashScreenBinding.tvSplashHeading.animation = splashAnimation
 
         splashAnimation.setAnimationListener(object : Animation.AnimationListener{
@@ -40,7 +41,7 @@ class SplashScreen : AppCompatActivity() {
 
             override fun onAnimationEnd(animation: Animation?) {
               Handler(Looper.getMainLooper()).postDelayed({
-                  startActivity(Intent(this@SplashScreen,MainActivity::class.java))
+                  startActivity(Intent(this@SplashScreen, MainActivity::class.java))
                   finish()
               },700)
             }
