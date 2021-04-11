@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp">
+
+        <TextView
+            android:id="@+id/headingTv"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Select an Image selection option"
+            android:textSize="@dimen/_12sdp" />
+
+        <ImageView
+            android:id="@+id/cameraIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera_vector"
+            android:layout_below="@+id/headingTv"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/_12sdp"/>
+
+
+        <ImageView
+            android:id="@+id/galleryIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_gallery_vector"
+            android:layout_below="@+id/headingTv"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/_12sdp"/>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

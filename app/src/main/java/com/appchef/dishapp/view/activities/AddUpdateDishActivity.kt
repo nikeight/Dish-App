@@ -1,11 +1,13 @@
 package com.appchef.dishapp.view.activities
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.appchef.dishapp.R
 import com.appchef.dishapp.databinding.ActivityAddUpdateDishBinding
+import com.appchef.dishapp.databinding.CustomDialogImageSelectionBinding
 
 class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
     // END
@@ -35,9 +37,7 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         when (v.id) {
 
             R.id.iv_add_dish_image -> {
-
-                Toast.makeText(this@AddUpdateDishActivity, "You have clicked on the ImageView.", Toast.LENGTH_SHORT).show()
-
+                customImageSelectionDialog()
                 return
             }
         }
@@ -58,5 +58,26 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         // END
 
         mBinding.toolbarAddDishActivity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+
+    private fun customImageSelectionDialog(){
+        val dialog = Dialog(this)
+        val dialogBinding : CustomDialogImageSelectionBinding =
+            CustomDialogImageSelectionBinding.inflate(layoutInflater)
+
+        dialog.setContentView(dialogBinding.root)
+
+        dialogBinding.cameraIv.setOnClickListener {
+            Toast.makeText(this, "Opening Camera", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialogBinding.galleryIv.setOnClickListener {
+            Toast.makeText(this, "Opening Gallery", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
