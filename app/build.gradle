@@ -54,4 +54,8 @@ dependencies {
 
     // Unit Library.
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    // Dexter Permission lib
+    implementation 'com.karumi:dexter:6.2.2'
+
 }
