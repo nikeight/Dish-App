@@ -118,7 +118,7 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
                 return
             }
 
-            // TODO Step 6: Perform the action on button click.
+            // TODO build different separate methods for checks.
             // START
             R.id.btn_add_dish -> {
 
