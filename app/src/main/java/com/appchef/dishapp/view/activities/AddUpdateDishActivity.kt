@@ -20,14 +20,19 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appchef.dishapp.R
+import com.appchef.dishapp.application.FavDishApplication
 import com.appchef.dishapp.databinding.ActivityAddUpdateDishBinding
 import com.appchef.dishapp.databinding.CustomDialogImageSelectionBinding
 import com.appchef.dishapp.databinding.DialogCustomListBinding
+import com.appchef.dishapp.model.entitie.FavDish
 import com.appchef.dishapp.view.adapter.CustomListItemAdapter
 import com.appchef.dishapp.view.util.Constants
+import com.appchef.dishapp.viewmodel.FavDishViewModel
+import com.appchef.dishapp.viewmodel.FavDishViewModelFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -63,6 +68,12 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         private const val GALLERY = 2
         private const val IMAGE_DIRECTORY = "DishApp"
     }
+
+    // ViewModel objects.
+    private val mFavDishViewModel: FavDishViewModel by viewModels {
+        FavDishViewModelFactory((application as FavDishApplication).repository)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -187,19 +198,31 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                     else -> {
+                        // When Everything is fine just add data to Room
+                        val favDishDetails: FavDish = FavDish(
+                            mImagePath,
+                            Constants.DISH_IMAGE_SOURCE_LOCAL,
+                            title,
+                            type,
+                            category,
+                            ingredients,
+                            cookingTimeInMinutes,
+                            cookingDirection,
+                            false
+                        )
 
-                        // TODO Step 8: Show the Toast Message for now that you dish entry is valid.
-                        // START
+                        mFavDishViewModel.insert(favDishDetails)
                         Toast.makeText(
-                            this@AddUpdateDishActivity,
-                            "All the entries are valid.",
+                            this,
+                            "Dish added successfully",
                             Toast.LENGTH_SHORT
                         ).show()
-                        // END
+
+                        // To end up the Activity scope
+                        finish()
                     }
                 }
             }
-            // END
         }
     }
 
