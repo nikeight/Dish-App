@@ -1,8 +1,6 @@
 package com.appchef.dishapp.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.appchef.dishapp.model.database.FavDishRepository
 import com.appchef.dishapp.model.entitie.FavDish
 import kotlinx.coroutines.launch
@@ -14,6 +12,9 @@ class FavDishViewModel(private val repository: FavDishRepository) : ViewModel() 
         // Launching the Coroutines scope and calling the Dao methods, indirectly
         repository.insertFavDishData(dish)
     }
+
+    // live cycle aware.
+    val allDishesList : LiveData<List<FavDish>> = repository.allDishesList.asLiveData()
 }
 
 // Factory Builder setup
