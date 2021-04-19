@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.appchef.dishapp.R
 import com.appchef.dishapp.application.FavDishApplication
@@ -59,6 +60,7 @@ class AllDishesFragment : Fragment() {
                         mBinding.rvDishesList.visibility = View.VISIBLE
                         mBinding.tvNoDishesAddedYet.visibility = View.GONE
 
+                        // Sending the List item from here.
                         favDishAdapter.dishesList(it)
                     } else {
 
@@ -68,6 +70,11 @@ class AllDishesFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun moveToDishDetails(){
+        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails())
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

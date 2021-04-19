@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.appchef.dishapp.databinding.ItemDishLayoutBinding
 import com.appchef.dishapp.model.entitie.FavDish
+import com.appchef.dishapp.view.fragments.AllDishesFragment
 import com.bumptech.glide.Glide
 
 class FavDishAdapter(private val fragment: Fragment) :
@@ -29,6 +30,12 @@ class FavDishAdapter(private val fragment: Fragment) :
             .into(holder.ivDishImage)
 
         holder.tvTitle.text = dish.title
+
+        holder.itemView.setOnClickListener {
+            if (fragment is AllDishesFragment){
+                fragment.moveToDishDetails()
+            }
+        }
     }
 
     /**
