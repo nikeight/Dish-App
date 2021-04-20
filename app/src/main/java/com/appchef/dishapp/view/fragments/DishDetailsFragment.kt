@@ -1,15 +1,22 @@
 package com.appchef.dishapp.view.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.fragment.navArgs
+import androidx.palette.graphics.Palette
 import com.appchef.dishapp.R
 import com.appchef.dishapp.databinding.FragmentDishDetailsBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import java.io.IOException
 import java.util.*
 
@@ -36,6 +43,35 @@ class DishDetailsFragment : Fragment() {
                 Glide.with(requireActivity())
                     .load(it.dishDetails.image)
                     .centerCrop()
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.e("ErrorImageLoading", Log.getStackTraceString(e))
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            resource.let {
+                                Palette.from(resource!!.toBitmap()).generate() { palette ->
+                                    val colorRGB = palette?.vibrantSwatch?.rgb ?: 0
+                                    mBinding!!.rlDishDetailMain.setBackgroundColor(colorRGB)
+                                }
+                            }
+
+                            return false
+                        }
+
+                    })
                     .into(mBinding!!.ivDishImage)
             } catch (e: IOException) {
                 e.printStackTrace()
