@@ -31,6 +31,9 @@
         android:id="@+id/navigation_dish_details"
         android:name="com.appchef.dishapp.view.fragments.DishDetailsFragment"
         android:label="@string/dish_details_string"
-        tools:layout="@layout/fragment_dish_details" />
+        tools:layout="@layout/fragment_dish_details" >
+        <argument android:name="dishDetails"
+            app:argType="com.appchef.dishapp.model.entitie.FavDish"/>
+    </fragment>
 
 </navigation>

@@ -21,7 +21,7 @@ buildscript {
     }
 }
 
-apply plugin: "org.jetbrains.kotlin.android.extensions"
+//apply plugin: "org.jetbrains.kotlin.android.extensions"
 
 allprojects {
     repositories {

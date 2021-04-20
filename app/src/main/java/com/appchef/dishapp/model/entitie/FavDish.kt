@@ -1,10 +1,13 @@
 package com.appchef.dishapp.model.entitie
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "fav_dish_table")
+@Parcelize
 data class FavDish(
     @ColumnInfo val image: String,
     @ColumnInfo val imageSource: String,
@@ -18,5 +21,5 @@ data class FavDish(
     @ColumnInfo(name = "favourite_dish") val favoriteDish: Boolean,
     // This is to auto generate the primary key for the tables data.
     @PrimaryKey(autoGenerate = true) val id: Int = 0
-) {
+) : Parcelable {
 }

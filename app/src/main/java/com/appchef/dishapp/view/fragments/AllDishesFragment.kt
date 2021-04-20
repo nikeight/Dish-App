@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.appchef.dishapp.R
 import com.appchef.dishapp.application.FavDishApplication
 import com.appchef.dishapp.databinding.FragmentAllDishesBinding
+import com.appchef.dishapp.model.entitie.FavDish
 import com.appchef.dishapp.view.activities.AddUpdateDishActivity
 import com.appchef.dishapp.view.activities.MainActivity
 import com.appchef.dishapp.view.adapter.FavDishAdapter
@@ -73,8 +74,10 @@ class AllDishesFragment : Fragment() {
         }
     }
 
-    fun moveToDishDetails(){
-        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails())
+    fun moveToDishDetails(favDish: FavDish){
+        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(
+            favDish
+        ))
 
         // hiding the btm nav after the click
         if (requireActivity() is MainActivity){
