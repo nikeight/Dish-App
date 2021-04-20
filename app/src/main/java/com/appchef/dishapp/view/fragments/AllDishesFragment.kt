@@ -15,6 +15,7 @@ import com.appchef.dishapp.R
 import com.appchef.dishapp.application.FavDishApplication
 import com.appchef.dishapp.databinding.FragmentAllDishesBinding
 import com.appchef.dishapp.view.activities.AddUpdateDishActivity
+import com.appchef.dishapp.view.activities.MainActivity
 import com.appchef.dishapp.view.adapter.FavDishAdapter
 import com.appchef.dishapp.viewmodel.FavDishViewModel
 import com.appchef.dishapp.viewmodel.FavDishViewModelFactory
@@ -75,6 +76,18 @@ class AllDishesFragment : Fragment() {
     fun moveToDishDetails(){
         findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails())
 
+        // hiding the btm nav after the click
+        if (requireActivity() is MainActivity){
+            (activity as MainActivity?)!!.hideBtmNavigation()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // show the btm nav whenever we came to the fragment again.
+        if (requireActivity() is MainActivity){
+            (activity as MainActivity?)!!.showBTmNavigation()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
