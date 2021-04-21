@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appchef.dishapp.databinding.ItemDishLayoutBinding
 import com.appchef.dishapp.model.entitie.FavDish
 import com.appchef.dishapp.view.fragments.AllDishesFragment
+import com.appchef.dishapp.view.fragments.FavoriteDishesFragment
 import com.bumptech.glide.Glide
 
 class FavDishAdapter(private val fragment: Fragment) :
@@ -34,6 +35,9 @@ class FavDishAdapter(private val fragment: Fragment) :
         holder.itemView.setOnClickListener {
             if (fragment is AllDishesFragment){
                 fragment.moveToDishDetails(dish)
+            }
+            if (fragment is FavoriteDishesFragment){
+                fragment.dishDetails(dish)
             }
         }
     }

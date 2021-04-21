@@ -14,4 +14,12 @@ class FavDishRepository(private val favDishDao: FavDishDao) {
 
     val allDishesList: kotlinx.coroutines.flow.Flow<List<FavDish>>
     = favDishDao.getAllDishesList()
+
+    @WorkerThread
+    suspend fun updateFavDishDetails(favDish: FavDish){
+        favDishDao.updateFavDishDetails(favDish)
+    }
+
+    val favoriteDishes: kotlinx.coroutines.flow.Flow<List<FavDish>> =
+        favDishDao.getFavoriteDishList()
 }

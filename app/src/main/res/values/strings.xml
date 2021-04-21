@@ -34,4 +34,5 @@
     <string name="dish_details_string">Dish Details</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="lbl_estimate_cooking_time">Estimate Time blah</string>
+    <string name="label_no_favorite_dishes_added_yet">No Favorite Dish added yet.</string>
 </resources>

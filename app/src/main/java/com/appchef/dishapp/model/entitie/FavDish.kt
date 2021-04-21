@@ -18,7 +18,7 @@ data class FavDish(
 
     @ColumnInfo(name = "cooking_time") val cookingTime: String,
     @ColumnInfo(name = "instructions") val directionToCook: String,
-    @ColumnInfo(name = "favourite_dish") val favoriteDish: Boolean,
+    @ColumnInfo(name = "favourite_dish") var favoriteDish: Boolean,
     // This is to auto generate the primary key for the tables data.
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 ) : Parcelable {

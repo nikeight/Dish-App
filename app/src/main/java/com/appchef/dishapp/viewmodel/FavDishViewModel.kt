@@ -15,6 +15,14 @@ class FavDishViewModel(private val repository: FavDishRepository) : ViewModel() 
 
     // live cycle aware.
     val allDishesList : LiveData<List<FavDish>> = repository.allDishesList.asLiveData()
+
+    // update the favDish
+    fun update(dish: FavDish) = viewModelScope.launch{
+        repository.updateFavDishDetails(dish)
+    }
+
+    // to get the list of the favDishes
+    val favoriteDishes: LiveData<List<FavDish>> = repository.favoriteDishes.asLiveData()
 }
 
 // Factory Builder setup
