@@ -1,9 +1,6 @@
 package com.appchef.dishapp.model.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.appchef.dishapp.model.entitie.FavDish
 import java.util.concurrent.Flow
 
@@ -19,6 +16,9 @@ interface FavDishDao {
 
     @Update
     suspend fun updateFavDishDetails(favDish: FavDish)
+
+    @Delete
+    suspend fun deleteFavDishDetails(favDish: FavDish)
 
     @Query("SELECT * FROM FAV_DISH_TABLE ORDER BY ID")
     fun getAllDishesList(): kotlinx.coroutines.flow.Flow<List<FavDish>>

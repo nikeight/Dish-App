@@ -23,6 +23,10 @@ class FavDishViewModel(private val repository: FavDishRepository) : ViewModel() 
 
     // to get the list of the favDishes
     val favoriteDishes: LiveData<List<FavDish>> = repository.favoriteDishes.asLiveData()
+
+    fun delete(dish: FavDish) = viewModelScope.launch {
+        repository.deleteFavDishDetails(dish)
+    }
 }
 
 // Factory Builder setup

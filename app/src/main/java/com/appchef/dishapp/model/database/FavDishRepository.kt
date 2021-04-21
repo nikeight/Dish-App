@@ -22,4 +22,9 @@ class FavDishRepository(private val favDishDao: FavDishDao) {
 
     val favoriteDishes: kotlinx.coroutines.flow.Flow<List<FavDish>> =
         favDishDao.getFavoriteDishList()
+
+    @WorkerThread
+    suspend fun deleteFavDishDetails(favDish: FavDish){
+        favDishDao.deleteFavDishDetails(favDish)
+    }
 }

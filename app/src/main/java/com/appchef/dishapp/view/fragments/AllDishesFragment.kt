@@ -1,5 +1,6 @@
 package com.appchef.dishapp.view.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -74,13 +75,15 @@ class AllDishesFragment : Fragment() {
         }
     }
 
-    fun moveToDishDetails(favDish: FavDish){
-        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(
-            favDish
-        ))
+    fun moveToDishDetails(favDish: FavDish) {
+        findNavController().navigate(
+            AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(
+                favDish
+            )
+        )
 
         // hiding the btm nav after the click
-        if (requireActivity() is MainActivity){
+        if (requireActivity() is MainActivity) {
             (activity as MainActivity?)!!.hideBtmNavigation()
         }
     }
@@ -88,7 +91,7 @@ class AllDishesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // show the btm nav whenever we came to the fragment again.
-        if (requireActivity() is MainActivity){
+        if (requireActivity() is MainActivity) {
             (activity as MainActivity?)!!.showBTmNavigation()
         }
     }
@@ -106,5 +109,23 @@ class AllDishesFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun deleteDish(dish: FavDish) {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle("Delete the Dish from the List")
+        builder.setMessage("Are you sure you want to delete this dish item?")
+        builder.setPositiveButton("Delete") { dialogInterface, _ ->
+            mFavDishViewModel.delete(dish)
+            dialogInterface.dismiss()
+        }
+
+        builder.setNegativeButton("NO") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 }
