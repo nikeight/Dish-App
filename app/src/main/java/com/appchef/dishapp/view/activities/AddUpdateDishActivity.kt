@@ -74,6 +74,7 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         FavDishViewModelFactory((application as FavDishApplication).repository)
     }
 
+    private var mFavDishDetails: FavDish? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +82,32 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         mBinding = ActivityAddUpdateDishBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
+        if (intent.hasExtra(Constants.EXTRA_DISH_DETAILS)) {
+            mFavDishDetails = intent.getParcelableExtra(Constants.EXTRA_DISH_DETAILS)
+        }
+
+        // updating the value then displaying the data.
         setupActionBar()
+
+        // populating the existing details.
+        mFavDishDetails?.let {
+            if (it.id != 0) {
+                mImagePath = it.image
+                Glide.with(this@AddUpdateDishActivity)
+                    .load(mImagePath)
+                    .centerCrop()
+                    .into(mBinding.ivDishImage)
+
+                mBinding.etTitle.setText(it.title)
+                mBinding.etType.setText(it.type)
+                mBinding.etCategory.setText(it.category)
+                mBinding.etIngredients.setText(it.ingredients)
+                mBinding.etCookingTime.setText(it.cookingTime)
+                mBinding.etDirectionToCook.setText(it.directionToCook)
+
+                mBinding.btnAddDish.text = resources.getString(R.string.lbl_update_dish)
+            }
+        }
 
         // On click Events
         mBinding.ivAddDishImage.setOnClickListener(this@AddUpdateDishActivity)
@@ -198,26 +224,50 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
                         ).show()
                     }
                     else -> {
+                        var dishId = 0
+                        var imageSource = Constants.DISH_IMAGE_SOURCE_LOCAL
+                        var favoriteDish = false
+
+                        mFavDishDetails?.let {
+                            if (it.id != 0) {
+                                dishId = it.id
+                                favoriteDish = it.favoriteDish
+                                imageSource = it.imageSource
+                            }
+                        }
+
                         // When Everything is fine just add data to Room
                         val favDishDetails: FavDish = FavDish(
                             mImagePath,
-                            Constants.DISH_IMAGE_SOURCE_LOCAL,
+                            imageSource,
                             title,
                             type,
                             category,
                             ingredients,
                             cookingTimeInMinutes,
                             cookingDirection,
-                            false
+                            favoriteDish,
+                            dishId
                         )
 
-                        mFavDishViewModel.insert(favDishDetails)
-                        Toast.makeText(
-                            this,
-                            "Dish added successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
+                        // Checking if the dishObject doesn't exist before.
+                        if (dishId == 0) {
+                            // adding the data.
+                            mFavDishViewModel.insert(favDishDetails)
+                            Toast.makeText(
+                                this,
+                                "Dish added successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            // updating the existing data.
+                            mFavDishViewModel.update(favDishDetails)
+                            Toast.makeText(
+                                this,
+                                "Dish updated successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                         // To end up the Activity scope
                         finish()
                     }
@@ -226,17 +276,24 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    /**
-     * A function for ActionBar setup.
-     */
+
     private fun setupActionBar() {
         setSupportActionBar(mBinding.toolbarAddDishActivity)
 
+        // Checking if the user is adding an Dish or Updating
+        if (mFavDishDetails != null && mFavDishDetails!!.id != 0) {
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_edit_dish)
+            }
+        } else {
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_add_dish)
+            }
+        }
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // TODO Step 2: Replace the back button that we have generated.
-        // START
+        // Back btn to our own back btn drawable
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-        // END
 
         mBinding.toolbarAddDishActivity.setNavigationOnClickListener { onBackPressed() }
     }
@@ -415,7 +472,6 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun customItemsListDialog(title: String, itemsList: List<String>, selection: String) {
-        // TODO Step 2: Replace the dialog variable with the global variable.
         mCustomListDialog = Dialog(this@AddUpdateDishActivity)
 
         val binding: DialogCustomListBinding = DialogCustomListBinding.inflate(layoutInflater)

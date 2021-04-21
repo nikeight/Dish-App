@@ -35,4 +35,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="lbl_estimate_cooking_time">Estimate Time blah</string>
     <string name="label_no_favorite_dishes_added_yet">No Favorite Dish added yet.</string>
+    <string name="edit_dish">Edit Dish</string>
+    <string name="delete_dish">Delete Dish</string>
+    <string name="title_add_dish">Add Dish</string>
+    <string name="title_edit_dish">Edit Dish</string>
+    <string name="lbl_update_dish">Update Dish</string>
+
 </resources>
