@@ -9,24 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.appchef.dishapp.R
+import com.appchef.dishapp.databinding.FragmentRandomDishBinding
 import com.appchef.dishapp.viewmodel.NotificationsViewModel
 
 class RandomDishFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+   private var mBindingRandomDish : FragmentRandomDishBinding? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-                ViewModelProvider(this).get(NotificationsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_random_dish, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+       mBindingRandomDish = FragmentRandomDishBinding.inflate(inflater,container,false)
+
+        return mBindingRandomDish!!.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mBindingRandomDish = null
     }
 }
