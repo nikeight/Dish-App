@@ -13,6 +13,16 @@ object Constants {
 
     const val EXTRA_DISH_DETAILS : String = "DishDetails"
 
+    const val API_ENDPOINT:String = "recipes/random"
+
+    // API KEY VALUE from the spoonacular console.
+    const val API_KEY_VALUE: String = "068e472bf84c4bed8bc5ec0e9f946997"
+
+    // KEY PARAMS
+    const val API_KEY: String = "apiKey"
+    const val LIMIT_LICENSE: String = "limitLicense"
+    const val TAGS: String = "tags"
+    const val NUMBER: String = "number"
 
     /**
      * This function will return the Dish Type List items.
