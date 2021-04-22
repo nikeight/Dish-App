@@ -24,6 +24,12 @@ object Constants {
     const val TAGS: String = "tags"
     const val NUMBER: String = "number"
 
+    const val BASE_URL = "https://api.spoonacular.com/"
+
+    const val LIMIT_LICENSE_VALUE : Boolean = true
+    const val TAGS_VALUE : String = "vegetable, dessert"
+    const val NUMBER_VALUE: Int = 1
+
     /**
      * This function will return the Dish Type List items.
      */
