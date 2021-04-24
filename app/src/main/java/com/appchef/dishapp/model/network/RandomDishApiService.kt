@@ -16,7 +16,7 @@ class RandomDishApiService {
         .build()
         .create(RandomDishAPI::class.java)
 
-    fun getRandomDish() : Single<RandomDish.Recipe>{
+    fun getRandomDish() : Single<RandomDish.Recipes>{
         return api.getRandomDish(Constants.API_KEY_VALUE,
         Constants.LIMIT_LICENSE_VALUE,
         Constants.TAGS_VALUE,

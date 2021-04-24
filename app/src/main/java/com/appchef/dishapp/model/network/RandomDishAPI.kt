@@ -16,7 +16,7 @@ interface RandomDishAPI {
         @Query(Constants.LIMIT_LICENSE) limitLicense: Boolean,
         @Query(Constants.TAGS) tags: String,
         @Query(Constants.NUMBER) number: Int
-    ) : Single<RandomDish.Recipe>
+    ) : Single<RandomDish.Recipes>
     // The Single class implements the Reactive Pattern for a single value response. Click on the class using the Ctrl + Left Mouse Click to know more.
 
 }
