@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 // THis is the observer observing the observable objects like Single
 class RandomDishViewModel: ViewModel(){
 
-    private val rRandomDishApiService = RandomDishApiService()
+    private val randomRecipeApiService = RandomDishApiService()
 
     // Disposable basically is used to control the life cycle of an
     // Observable -> Like Single,Double,Triple (RxJava)
@@ -22,13 +22,13 @@ class RandomDishViewModel: ViewModel(){
     val randomDishResponse = MutableLiveData<RandomDish.Recipes>()
     val randomDishLoadingError = MutableLiveData<Boolean>()
 
-    fun getRandomRecipeFromAPI() {
+    fun getRandomDishFromAPI() {
         loadRandomDish.value = true
 
         // Subscribing on the new thread.
         // And Observing in the main thread.
         compositeDisposable.add(
-            rRandomDishApiService.getRandomDish()
+            randomRecipeApiService.getRandomDish()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<RandomDish.Recipes>() {
@@ -40,11 +40,10 @@ class RandomDishViewModel: ViewModel(){
 
                     override fun onError(e: Throwable?) {
                         loadRandomDish.value = false
-                        randomDishLoadingError.value = false
+                        randomDishLoadingError.value = true
                         e!!.printStackTrace()
                     }
                 })
         )
     }
-
 }

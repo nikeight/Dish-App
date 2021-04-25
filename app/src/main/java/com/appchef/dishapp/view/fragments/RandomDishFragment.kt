@@ -36,38 +36,42 @@ class RandomDishFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mBindingRandomDish = FragmentRandomDishBinding.inflate(inflater, container, false)
         return mBindingRandomDish!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mRandomDishViewModel = ViewModelProvider(this).get(RandomDishViewModel::class.java)
-        mRandomDishViewModel.getRandomRecipeFromAPI()
+        mRandomDishViewModel = ViewModelProvider(this)
+            .get(RandomDishViewModel::class.java)
+
+        mRandomDishViewModel.getRandomDishFromAPI()
+
         randomDishViewModelObserver()
     }
 
     private fun randomDishViewModelObserver() {
+
         mRandomDishViewModel.randomDishResponse.observe(viewLifecycleOwner,
-            { randomDishResponse ->
+            Observer { randomDishResponse ->
                 randomDishResponse?.let {
-                    Log.i("DISH_API_DATA","$randomDishResponse")
-//                    setRandomDishResponseInUI(randomDishResponse.recipes[0])
+                    Log.i("DISH_API_DATA", "$randomDishResponse")
+                    setRandomDishResponseInUI(randomDishResponse.recipes[0])
                 }
             })
 
         mRandomDishViewModel.randomDishLoadingError.observe(viewLifecycleOwner,
-            { dataError ->
+            Observer { dataError ->
                 dataError?.let {
                     Log.e("Random Dish Api Error", "$dataError")
                 }
             })
 
-        mRandomDishViewModel.loadRandomDish.observe(viewLifecycleOwner,{
-            loadRandomDish ->
+        mRandomDishViewModel.loadRandomDish.observe(viewLifecycleOwner,
+            Observer { loadRandomDish ->
             loadRandomDish?.let {
-                Log.i("Random Dish API boolean","$loadRandomDish")
+                Log.i("Random Dish API boolean", "$loadRandomDish")
             }
         })
     }
