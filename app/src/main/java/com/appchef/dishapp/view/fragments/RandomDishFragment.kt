@@ -49,6 +49,10 @@ class RandomDishFragment : Fragment() {
         mRandomDishViewModel.getRandomDishFromAPI()
 
         randomDishViewModelObserver()
+
+        mBindingRandomDish!!.srlRandomDish.setOnRefreshListener {
+            mRandomDishViewModel.getRandomDishFromAPI()
+        }
     }
 
     private fun randomDishViewModelObserver() {
@@ -57,6 +61,9 @@ class RandomDishFragment : Fragment() {
             Observer { randomDishResponse ->
                 randomDishResponse?.let {
                     Log.i("DISH_API_DATA", "$randomDishResponse")
+                    if (mBindingRandomDish!!.srlRandomDish.isRefreshing) {
+                        mBindingRandomDish!!.srlRandomDish.isRefreshing = false
+                    }
                     setRandomDishResponseInUI(randomDishResponse.recipes[0])
                 }
             })
@@ -65,6 +72,9 @@ class RandomDishFragment : Fragment() {
             Observer { dataError ->
                 dataError?.let {
                     Log.e("Random Dish Api Error", "$dataError")
+                    if (mBindingRandomDish!!.srlRandomDish.isRefreshing) {
+                        mBindingRandomDish!!.srlRandomDish.isRefreshing = false
+                    }
                 }
             })
 
@@ -120,41 +130,60 @@ class RandomDishFragment : Fragment() {
             mBindingRandomDish!!.tvCookingDirection.text = Html.fromHtml(recipe.instructions)
         }
 
+        mBindingRandomDish!!.ivFavoriteDish.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireActivity(),
+                R.drawable.ic_fav_unselected_vector
+            )
+        )
+
+        var addedToFavorite = false
+
         mBindingRandomDish!!.tvCookingTime.text = recipe.readyInMinutes.toString()
 
 
         mBindingRandomDish!!.ivFavoriteDish.setOnClickListener {
 
-            val randomDishDetails = FavDish(
-                recipe.image,
-                Constants.DISH_IMAGE_SOURCE_ONLINE,
-                recipe.title,
-                dishType,
-                "Other",
-                ingredients,
-                recipe.readyInMinutes.toString(),
-                recipe.instructions,
-                true
-            )
-
-            val mFavDishViewModel: FavDishViewModel by viewModels {
-                FavDishViewModelFactory((requireActivity().application as FavDishApplication).repository)
-            }
-
-            mFavDishViewModel.insert(randomDishDetails)
-
-            mBindingRandomDish!!.ivFavoriteDish.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireActivity(),
-                    R.drawable.ic_fav_selected_vector
+            if (addedToFavorite){
+                Toast.makeText(
+                    requireContext(),
+                    "Already Added",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                val randomDishDetails = FavDish(
+                    recipe.image,
+                    Constants.DISH_IMAGE_SOURCE_ONLINE,
+                    recipe.title,
+                    dishType,
+                    "Other",
+                    ingredients,
+                    recipe.readyInMinutes.toString(),
+                    recipe.instructions,
+                    true
                 )
-            )
 
-            Toast.makeText(
-                requireActivity(),
-                resources.getString(R.string.dish_added),
-                Toast.LENGTH_SHORT
-            ).show()
+                val mFavDishViewModel: FavDishViewModel by viewModels {
+                    FavDishViewModelFactory((requireActivity().application as FavDishApplication).repository)
+                }
+
+                mFavDishViewModel.insert(randomDishDetails)
+
+                addedToFavorite = true
+
+                mBindingRandomDish!!.ivFavoriteDish.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireActivity(),
+                        R.drawable.ic_fav_selected_vector
+                    )
+                )
+
+                Toast.makeText(
+                    requireActivity(),
+                    resources.getString(R.string.dish_added),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
