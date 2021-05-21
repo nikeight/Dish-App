@@ -1,6 +1,7 @@
 package com.appchef.dishapp.view.fragments
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,13 +13,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.appchef.dishapp.R
 import com.appchef.dishapp.application.FavDishApplication
+import com.appchef.dishapp.databinding.DialogCustomListBinding
 import com.appchef.dishapp.databinding.FragmentAllDishesBinding
 import com.appchef.dishapp.model.entitie.FavDish
 import com.appchef.dishapp.view.activities.AddUpdateDishActivity
 import com.appchef.dishapp.view.activities.MainActivity
+import com.appchef.dishapp.view.adapter.CustomListItemAdapter
 import com.appchef.dishapp.view.adapter.FavDishAdapter
+import com.appchef.dishapp.view.util.Constants
 import com.appchef.dishapp.viewmodel.FavDishViewModel
 import com.appchef.dishapp.viewmodel.FavDishViewModelFactory
 import com.appchef.dishapp.viewmodel.HomeViewModel
@@ -26,6 +31,10 @@ import com.appchef.dishapp.viewmodel.HomeViewModel
 class AllDishesFragment : Fragment() {
 
     private lateinit var mBinding: FragmentAllDishesBinding
+
+    private lateinit var mFavDishAdapter: FavDishAdapter
+
+    private lateinit var mCustomListDialog: Dialog
 
     // ViewModel object.
     private val mFavDishViewModel: FavDishViewModel by viewModels {
@@ -52,8 +61,10 @@ class AllDishesFragment : Fragment() {
 
         // Set the LayoutManager to Grid Format.
         mBinding.rvDishesList.layoutManager = GridLayoutManager(requireActivity(), 2)
-        val favDishAdapter = FavDishAdapter(this@AllDishesFragment)
-        mBinding.rvDishesList.adapter = favDishAdapter
+        mFavDishAdapter = FavDishAdapter(this@AllDishesFragment)
+
+
+        mBinding.rvDishesList.adapter = mFavDishAdapter
 
         mFavDishViewModel.allDishesList.observe(viewLifecycleOwner) { dishes ->
             dishes.let {
@@ -64,7 +75,7 @@ class AllDishesFragment : Fragment() {
                         mBinding.tvNoDishesAddedYet.visibility = View.GONE
 
                         // Sending the List item from here.
-                        favDishAdapter.dishesList(it)
+                        mFavDishAdapter.dishesList(it)
                     } else {
 
                         mBinding.rvDishesList.visibility = View.GONE
@@ -88,6 +99,24 @@ class AllDishesFragment : Fragment() {
         }
     }
 
+    private fun filterDishesListDialog() {
+        mCustomListDialog = Dialog(requireActivity())
+        val binding: DialogCustomListBinding = DialogCustomListBinding.inflate(layoutInflater)
+
+        mCustomListDialog.setContentView(binding.root)
+        binding.tvTitle.text = resources.getString(R.string.title_select_dish_category)
+        val dishType = Constants.dishTypes()
+        dishType.add(0, Constants.ALL_ITEMS)
+
+        // Setting up the list
+        binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
+        val adapter = CustomListItemAdapter(requireActivity(), this, dishType, Constants.FILTER_SELECTION)
+
+        // Setting adapter and showing it.
+        binding.rvList.adapter = adapter
+        mCustomListDialog.show()
+    }
+
     override fun onResume() {
         super.onResume()
         // show the btm nav whenever we came to the fragment again.
@@ -105,6 +134,11 @@ class AllDishesFragment : Fragment() {
         when (item.itemId) {
             R.id.action_add_dish -> {
                 startActivity(Intent(requireActivity(), AddUpdateDishActivity::class.java))
+                return true
+            }
+
+            R.id.action_filter_dish -> {
+                filterDishesListDialog()
                 return true
             }
         }
@@ -127,5 +161,12 @@ class AllDishesFragment : Fragment() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
+    }
+
+    fun filterSelection(filterItemSelected : String){
+        mCustomListDialog.dismiss()
+        Log.i("Filter Selected Item",filterItemSelected)
+
+
     }
 }

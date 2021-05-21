@@ -44,5 +44,6 @@
     <string name="please_wait">Please Wait</string>
     <string name="share_recepie">Share</string>
     <string name="share_recipe">share_recpie</string>
+    <string name="action_filter_dish">Filter Dishes</string>
 
 </resources>

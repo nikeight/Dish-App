@@ -2,8 +2,16 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+    <item android:title="@string/action_filter_dish"
+        android:id="@+id/action_filter_dish"
+        android:icon="@drawable/ic_filter_vector"
+        android:orderInCategory="100"
+        app:showAsAction="always"/>
+
     <item android:title="@string/action_add_dish"
         android:id="@+id/action_add_dish"
         android:icon="@drawable/ic_add"
+        android:orderInCategory="101"
         app:showAsAction="always"/>
 </menu>

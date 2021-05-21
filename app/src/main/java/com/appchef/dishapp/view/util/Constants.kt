@@ -30,6 +30,9 @@ object Constants {
     const val TAGS_VALUE : String = "vegetarian, dessert"
     const val NUMBER_VALUE: Int = 1
 
+    const val ALL_ITEMS : String = "All"
+    const val FILTER_SELECTION : String = "filterSelection"
+
     /**
      * This function will return the Dish Type List items.
      */

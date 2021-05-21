@@ -4,12 +4,15 @@ package com.appchef.dishapp.view.adapter
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.appchef.dishapp.databinding.ItemCustomListLayoutBinding
 import com.appchef.dishapp.view.activities.AddUpdateDishActivity
+import com.appchef.dishapp.view.fragments.AllDishesFragment
 
 class CustomListItemAdapter(
     private val activity: Activity,
+    private val fragment : Fragment?, // This can be null
     private val listItems: List<String>,
     private val selection: String
 ) :
@@ -49,8 +52,12 @@ class CustomListItemAdapter(
             if (activity is AddUpdateDishActivity) {
                 activity.selectedListItem(item, selection)
             }
+
+            // For Fragments.
+            if (fragment is AllDishesFragment) {
+                fragment.filterSelection(item)
+            }
         }
-        // END
     }
 
     /**
