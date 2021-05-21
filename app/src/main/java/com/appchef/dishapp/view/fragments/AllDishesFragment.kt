@@ -165,8 +165,21 @@ class AllDishesFragment : Fragment() {
 
     fun filterSelection(filterItemSelected : String){
         mCustomListDialog.dismiss()
-        Log.i("Filter Selected Item",filterItemSelected)
 
+        mFavDishViewModel.getFilteredList(filterItemSelected)
+            .observe(viewLifecycleOwner){
+                dishes ->
+                dishes.let {
+                    if (it.isNotEmpty()){
+                        mBinding.rvDishesList.visibility = View.VISIBLE
+                        mBinding.tvNoDishesAddedYet.visibility = View.GONE
 
+                        mFavDishAdapter.dishesList(it)
+                    }else{
+                        mBinding.rvDishesList.visibility = View.GONE
+                        mBinding.tvNoDishesAddedYet.visibility = View.VISIBLE
+                    }
+                }
+            }
     }
 }

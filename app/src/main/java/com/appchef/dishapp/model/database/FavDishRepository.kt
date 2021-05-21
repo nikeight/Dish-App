@@ -27,4 +27,7 @@ class FavDishRepository(private val favDishDao: FavDishDao) {
     suspend fun deleteFavDishDetails(favDish: FavDish){
         favDishDao.deleteFavDishDetails(favDish)
     }
+
+    fun filteredListDishes(value : String) : kotlinx.coroutines.flow.Flow<List<FavDish>> =
+        favDishDao.getFilteredDishesList(value)
 }

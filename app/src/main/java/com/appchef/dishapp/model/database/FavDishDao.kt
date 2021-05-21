@@ -26,4 +26,8 @@ interface FavDishDao {
     // TO get all the FavDishes
     @Query("SELECT * FROM fav_dish_table WHERE favourite_dish = 1")
     fun getFavoriteDishList() : kotlinx.coroutines.flow.Flow<List<FavDish>>
+
+    // Filter
+    @Query("SELECT * FROM FAV_DISH_TABLE WHERE type = :filterType")
+    fun getFilteredDishesList(filterType : String): kotlinx.coroutines.flow.Flow<List<FavDish>>
 }
