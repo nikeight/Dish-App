@@ -16,6 +16,7 @@ import androidx.work.*
 import com.appchef.dishapp.R
 import com.appchef.dishapp.databinding.ActivityMainBinding
 import com.appchef.dishapp.model.notifications.NotifyWorker
+import com.appchef.dishapp.view.util.Constants
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -45,6 +46,13 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(mNavController, appBarConfiguration)
         mBinding.navView.setupWithNavController(mNavController)
+
+        // If the notification will be selected it will take to
+        // the Random Dish Fragments.
+        if (intent.hasExtra(Constants.NOTIFICATION_ID)){
+            val notificationId = intent.getIntExtra(Constants.NOTIFICATION_ID,0)
+            mBinding.navView.selectedItemId = R.id.navigation_random_dish
+        }
 
         // Calling the Worker class
         startWork()

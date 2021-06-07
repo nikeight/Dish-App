@@ -46,4 +46,7 @@
     <string name="share_recipe">share_recpie</string>
     <string name="action_filter_dish">Filter Dishes</string>
 
+    <string name="notification_title">Checkout new dishes recipes</string>
+    <string name="notification_subtitle">Tap for more details</string>
+
 </resources>

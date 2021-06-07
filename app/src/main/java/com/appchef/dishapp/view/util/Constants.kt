@@ -33,6 +33,11 @@ object Constants {
     const val ALL_ITEMS : String = "All"
     const val FILTER_SELECTION : String = "filterSelection"
 
+    const val NOTIFICATION_ID = "favDish_notification_id"
+    const val NOTIFICATION_NAME = "FavDish"
+    const val NOTIFICATION_CHANNEL = "FavDish_channel_01"
+
+
     /**
      * This function will return the Dish Type List items.
      */
